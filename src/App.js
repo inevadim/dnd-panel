@@ -35,7 +35,15 @@ export default class AddRemoveLayout extends React.PureComponent {
     };
     this.onAddItem = this.onAddItem.bind(this);
     this.onAddItemJSON = this.onAddItemJSON.bind(this);
+    this.onBreakpointChange = this.onBreakpointChange.bind(this);
+    this.onLayoutChange = this.onLayoutChange.bind(this);
   }
+
+  onLayoutChange(items) {
+    this.setState({ items: items });
+    localStorage.setItem('items', JSON.stringify(this.state, serializer));
+  }
+
   onAddItem() {
     this.setState({
       items: this.state.items.concat({
@@ -74,6 +82,13 @@ export default class AddRemoveLayout extends React.PureComponent {
       newCounter: this.state.newCounter - 1,
     });
     localStorage.setItem('items', JSON.stringify(this.state, serializer));
+  }
+
+  onBreakpointChange(breakpoint, cols) {
+    this.setState({
+      breakpoint: breakpoint,
+      cols: cols,
+    });
   }
 
   createElement(el) {
