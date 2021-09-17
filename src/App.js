@@ -89,6 +89,13 @@ export default class AddRemoveLayout extends React.PureComponent {
   }
 
   render() {
-    return <div></div>;
+    return (
+      <div>
+        <hr />
+        <button onClick={this.onAddItem}>Add Item</button>
+        <button onClick={() => this.onAddItemJSON(prompt())}>Add Item JSON</button>
+        <hr />
+      </div>
+    );
   }
 }
