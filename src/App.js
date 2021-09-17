@@ -3,6 +3,7 @@ import React from 'react';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import _ from 'lodash';
 import axios from 'axios';
+import { randomColor } from 'randomcolor';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const serializer = (name, val) =>
@@ -55,6 +56,9 @@ export default class AddRemoveLayout extends React.PureComponent {
         h: 2,
         imgItem: this.state.bdJSON.itemDND[rand].imgUrl,
         urlSite: null,
+        color: randomColor({
+          luminosity: 'light',
+        }),
         typeItem: 1,
       }),
       newCounter: this.state.newCounter + 1,
@@ -96,7 +100,7 @@ export default class AddRemoveLayout extends React.PureComponent {
   createElement(el) {
     const i = el.add ? '+' : el.i;
     return (
-      <div className="wrap_item" key={i} data-grid={el}>
+      <div className="wrap_item" style={{ backgroundColor: `${el.color}` }} key={i} data-grid={el}>
         {el.add ? (
           <span
             className="add text"
