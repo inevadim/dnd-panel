@@ -30,6 +30,8 @@ export default class AddRemoveLayout extends React.PureComponent {
       }),
       newCounter: 0,
     };
+    this.onAddItem = this.onAddItem.bind(this);
+    this.onAddItemJSON = this.onAddItemJSON.bind(this);
   }
   onAddItem() {
     this.setState({
@@ -81,7 +83,7 @@ export default class AddRemoveLayout extends React.PureComponent {
         <span
           className="remove removeStyle"
           // style="removeStyle"
-          onClick={this.onRemoveItem.bind(this, i)}>
+        >
           ❌
         </span>
       </div>
@@ -95,6 +97,9 @@ export default class AddRemoveLayout extends React.PureComponent {
         <button onClick={this.onAddItem}>Add Item</button>
         <button onClick={() => this.onAddItemJSON(prompt())}>Add Item JSON</button>
         <hr />
+        <ResponsiveReactGridLayout>
+          {_.map(this.state.items, el => this.createElement(el))}
+        </ResponsiveReactGridLayout>
       </div>
     );
   }
