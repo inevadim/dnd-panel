@@ -63,6 +63,13 @@ export default class AddRemoveLayout extends React.PureComponent {
     });
   }
 
+  onRemoveItem(i) {
+    this.setState({
+      items: _.reject(this.state.items, { i: i }),
+      newCounter: this.state.newCounter - 1,
+    });
+  }
+
   createElement(el) {
     const i = el.add ? '+' : el.i;
     return (
@@ -72,7 +79,7 @@ export default class AddRemoveLayout extends React.PureComponent {
             className="add text"
             onClick={this.onAddItem}
             title="You can add an item by clicking here, too.">
-            > Add +
+            Add +
           </span>
         ) : (
           <span className="text">
@@ -83,7 +90,7 @@ export default class AddRemoveLayout extends React.PureComponent {
         <span
           className="remove removeStyle"
           // style="removeStyle"
-        >
+          onClick={this.onRemoveItem.bind(this, i)}>
           ❌
         </span>
       </div>
