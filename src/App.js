@@ -45,6 +45,22 @@ export default class AddRemoveLayout extends React.PureComponent {
       newCounter: this.state.newCounter + 1,
     });
   }
+
+  onAddItemJSON(urlItem) {
+    this.setState({
+      items: this.state.items.concat({
+        i: 'n' + this.state.newCounter,
+        x: (this.state.items.length * 2) % (this.state.cols || 12),
+        y: Infinity, // puts it at the bottom
+        w: 2,
+        h: 2,
+        urlSite: urlItem,
+        typeItem: 2,
+      }),
+      newCounter: this.state.newCounter + 1,
+    });
+  }
+
   render() {
     return <div></div>;
   }
