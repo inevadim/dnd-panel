@@ -2,12 +2,20 @@ import './App.css';
 import React from 'react';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import _ from 'lodash';
+import axios from 'axios';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const serializer = (name, val) =>
   typeof val === 'number' && !isFinite(val) ? val.toString() : val;
 
 export default class AddRemoveLayout extends React.PureComponent {
+  componentDidMount() {
+    axios.get(`/bd.json`).then(res => {
+      const bdJSON = res.data;
+      this.setState({ bdJSON });
+    });
+    // console.log(this.state.bdJSON.itemDND);
+  }
   static defaultProps = {
     className: 'items',
     cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
@@ -46,6 +54,9 @@ export default class AddRemoveLayout extends React.PureComponent {
   }
 
   onAddItem() {
+    let rand = Math.floor(Math.random() * this.state.items.length);
+    console.log(rand);
+    console.log(this.state.bdJSON.itemDND[rand].imgUrl);
     this.setState({
       items: this.state.items.concat({
         i: 'n' + this.state.newCounter,
@@ -53,6 +64,7 @@ export default class AddRemoveLayout extends React.PureComponent {
         y: Infinity, // puts it at the bottom
         w: 2,
         h: 2,
+        imgItem: this.state.bdJSON.itemDND[rand].imgUrl,
         urlSite: null,
         typeItem: 1,
       }),
@@ -105,7 +117,11 @@ export default class AddRemoveLayout extends React.PureComponent {
           </span>
         ) : (
           <span className="text">
-            <iframe src={el.urlSite} title={i} width="80%" height="98%" />
+            {el.typeItem === 2 ? (
+              <iframe src={el.urlSite} title={i} width="80%" height="98%" />
+            ) : (
+              <img src={el.imgItem} alt={el.imgItem} />
+            )}
           </span>
         )}
         {el.typeItem}
