@@ -27,7 +27,7 @@ export default class AddRemoveLayout extends React.PureComponent {
           w: 2,
           h: 2,
           urlSite: null,
-          typeItem: 1,
+          typeItem: 2,
           add: i === list.length - 1,
         };
       }),
@@ -39,8 +39,14 @@ export default class AddRemoveLayout extends React.PureComponent {
     this.onLayoutChange = this.onLayoutChange.bind(this);
   }
 
+  // onLayoutChange(items) {
+  //   this.setState({ items: items });
+  //   console.log(this.state.items);
+  //   localStorage.setItem('items', JSON.stringify(this.state, serializer));
+  // }
   onLayoutChange(items) {
-    this.setState({ items: items });
+    const newItems = items.map((el, i) => ({ ...this.state.items[i], ...el }));
+    this.setState({ items: newItems });
     localStorage.setItem('items', JSON.stringify(this.state, serializer));
   }
 
