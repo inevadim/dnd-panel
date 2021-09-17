@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import _ from 'lodash';
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 export default class AddRemoveLayout extends React.PureComponent {
   static defaultProps = {
@@ -30,7 +31,20 @@ export default class AddRemoveLayout extends React.PureComponent {
       newCounter: 0,
     };
   }
-
+  onAddItem() {
+    this.setState({
+      items: this.state.items.concat({
+        i: 'n' + this.state.newCounter,
+        x: (this.state.items.length * 2) % (this.state.cols || 12),
+        y: Infinity, // puts it at the bottom
+        w: 2,
+        h: 2,
+        urlSite: null,
+        typeItem: 1,
+      }),
+      newCounter: this.state.newCounter + 1,
+    });
+  }
   render() {
     return <div></div>;
   }
