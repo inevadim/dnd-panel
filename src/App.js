@@ -39,11 +39,6 @@ export default class AddRemoveLayout extends React.PureComponent {
     this.onLayoutChange = this.onLayoutChange.bind(this);
   }
 
-  // onLayoutChange(items) {
-  //   this.setState({ items: items });
-  //   console.log(this.state.items);
-  //   localStorage.setItem('items', JSON.stringify(this.state, serializer));
-  // }
   onLayoutChange(items) {
     const newItems = items.map((el, i) => ({ ...this.state.items[i], ...el }));
     this.setState({ items: newItems });
