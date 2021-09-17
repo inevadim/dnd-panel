@@ -61,6 +61,33 @@ export default class AddRemoveLayout extends React.PureComponent {
     });
   }
 
+  createElement(el) {
+    const i = el.add ? '+' : el.i;
+    return (
+      <div key={i} data-grid={el}>
+        {el.add ? (
+          <span
+            className="add text"
+            onClick={this.onAddItem}
+            title="You can add an item by clicking here, too.">
+            > Add +
+          </span>
+        ) : (
+          <span className="text">
+            <iframe src={el.urlSite} title={i} width="80%" height="98%" />
+          </span>
+        )}
+        {el.typeItem}
+        <span
+          className="remove removeStyle"
+          // style="removeStyle"
+          onClick={this.onRemoveItem.bind(this, i)}>
+          ❌
+        </span>
+      </div>
+    );
+  }
+
   render() {
     return <div></div>;
   }
