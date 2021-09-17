@@ -96,7 +96,7 @@ export default class AddRemoveLayout extends React.PureComponent {
   createElement(el) {
     const i = el.add ? '+' : el.i;
     return (
-      <div key={i} data-grid={el}>
+      <div className="wrap_item" key={i} data-grid={el}>
         {el.add ? (
           <span
             className="add text"
@@ -109,7 +109,7 @@ export default class AddRemoveLayout extends React.PureComponent {
             {el.typeItem === 2 ? (
               <iframe src={el.urlSite} title={i} width="80%" height="98%" />
             ) : (
-              <img src={el.imgItem} alt={el.imgItem} width="80%" height="98%" />
+              <img src={el.imgItem} alt={el.imgItem} width="80%" height="100%" />
             )}
           </span>
         )}
