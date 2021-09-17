@@ -4,6 +4,9 @@ import { WidthProvider, Responsive } from 'react-grid-layout';
 import _ from 'lodash';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
+const serializer = (name, val) =>
+  typeof val === 'number' && !isFinite(val) ? val.toString() : val;
+
 export default class AddRemoveLayout extends React.PureComponent {
   static defaultProps = {
     className: 'items',
@@ -46,6 +49,7 @@ export default class AddRemoveLayout extends React.PureComponent {
       }),
       newCounter: this.state.newCounter + 1,
     });
+    localStorage.setItem('items', JSON.stringify(this.state, serializer));
   }
 
   onAddItemJSON(urlItem) {
@@ -61,6 +65,7 @@ export default class AddRemoveLayout extends React.PureComponent {
       }),
       newCounter: this.state.newCounter + 1,
     });
+    localStorage.setItem('items', JSON.stringify(this.state, serializer));
   }
 
   onRemoveItem(i) {
@@ -68,6 +73,7 @@ export default class AddRemoveLayout extends React.PureComponent {
       items: _.reject(this.state.items, { i: i }),
       newCounter: this.state.newCounter - 1,
     });
+    localStorage.setItem('items', JSON.stringify(this.state, serializer));
   }
 
   createElement(el) {
