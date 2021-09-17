@@ -44,7 +44,7 @@ export default class AddRemoveLayout extends React.PureComponent {
   }
 
   onAddItem() {
-    let rand = Math.floor(Math.random() * this.state.items.length);
+    let rand = Math.floor(Math.random() * this.state.bdJSON.itemDND.length);
     console.log(rand);
     console.log(this.state.bdJSON.itemDND[rand].imgUrl);
     this.setState({
@@ -117,7 +117,6 @@ export default class AddRemoveLayout extends React.PureComponent {
             )}
           </span>
         )}
-        {el.typeItem}
         <span
           className="remove removeStyle"
           // style="removeStyle"
