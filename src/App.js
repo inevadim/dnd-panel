@@ -27,18 +27,7 @@ export default class AddRemoveLayout extends React.PureComponent {
     const parser = (name, val) => (val === 'Infinity' ? Infinity : val);
     this.state = JSON.parse(localStorage.getItem('items'), parser) ?? {
       // Чтение
-      items: [0, 1, 2, 3, 4].map(function (i, key, list) {
-        return {
-          i: i.toString(),
-          x: i * 2,
-          y: 0,
-          w: 2,
-          h: 2,
-          urlSite: null,
-          typeItem: 2,
-          add: i === list.length - 1,
-        };
-      }),
+      items: [],
       newCounter: 0,
     };
     this.onAddItem = this.onAddItem.bind(this);
@@ -120,7 +109,7 @@ export default class AddRemoveLayout extends React.PureComponent {
             {el.typeItem === 2 ? (
               <iframe src={el.urlSite} title={i} width="80%" height="98%" />
             ) : (
-              <img src={el.imgItem} alt={el.imgItem} />
+              <img src={el.imgItem} alt={el.imgItem} width="80%" height="98%" />
             )}
           </span>
         )}
