@@ -30,6 +30,7 @@ export default class AddRemoveLayout extends React.PureComponent {
       // Чтение
       items: [],
       newCounter: 0,
+      counterAdd: 0,
     };
     this.onAddItem = this.onAddItem.bind(this);
     this.onAddItemJSON = this.onAddItemJSON.bind(this);
@@ -49,7 +50,7 @@ export default class AddRemoveLayout extends React.PureComponent {
     console.log(this.state.bdJSON.itemDND[rand].imgUrl);
     this.setState({
       items: this.state.items.concat({
-        i: 'n' + this.state.newCounter,
+        i: Date.now + this.state.counterAdd,
         x: (this.state.items.length * 2) % (this.state.cols || 12),
         y: Infinity, // puts it at the bottom
         w: 2,
@@ -61,7 +62,8 @@ export default class AddRemoveLayout extends React.PureComponent {
         }),
         typeItem: 1,
       }),
-      newCounter: this.state.newCounter + 1,
+      counterAdd: this.state.counterAdd + 1,
+      newCounter: this.state.counterAdd,
     });
     localStorage.setItem('items', JSON.stringify(this.state, serializer));
   }
@@ -69,7 +71,7 @@ export default class AddRemoveLayout extends React.PureComponent {
   onAddItemJSON(urlItem) {
     this.setState({
       items: this.state.items.concat({
-        i: 'n' + this.state.newCounter,
+        i: Date.now() + this.state.newCounter,
         x: (this.state.items.length * 2) % (this.state.cols || 12),
         y: Infinity, // puts it at the bottom
         w: 2,
@@ -80,7 +82,8 @@ export default class AddRemoveLayout extends React.PureComponent {
         }),
         typeItem: 2,
       }),
-      newCounter: this.state.newCounter + 1,
+      counterAdd: this.state.counterAdd + 1,
+      newCounter: this.state.counterAdd,
     });
     localStorage.setItem('items', JSON.stringify(this.state, serializer));
   }
@@ -88,7 +91,8 @@ export default class AddRemoveLayout extends React.PureComponent {
   onRemoveItem(i) {
     this.setState({
       items: _.reject(this.state.items, { i: i }),
-      newCounter: this.state.newCounter - 1,
+      // counterAdd: this.state.counterAdd - 1,
+      // newCounter:this.state.counterAdd
     });
     localStorage.setItem('items', JSON.stringify(this.state, serializer));
   }
@@ -102,6 +106,7 @@ export default class AddRemoveLayout extends React.PureComponent {
 
   createElement(el) {
     const i = el.add ? '+' : el.i;
+
     return (
       <div className="wrap_item" style={{ backgroundColor: `${el.color}` }} key={i} data-grid={el}>
         {el.add ? (
@@ -114,13 +119,22 @@ export default class AddRemoveLayout extends React.PureComponent {
         ) : (
           <span className="text">
             {el.typeItem === 2 ? (
-              <iframe
-                src={el.urlSite}
-                title={i}
-                width="80%"
-                height="100%"
-                style={{ border: 'none' }}
-              />
+              window.self !== window.top ? (
+                <iframe
+                  //https://utyatnishna.ru
+                  //https://askdev.ru
+                  //https://codengineering.ru
+                  src={el.urlSite}
+                  title={i}
+                  width="80%"
+                  height="100%"
+                  style={{ border: 'none', borderRight: '1px solid' }}
+                />
+              ) : (
+                <span>
+                  <center>you entered the site address incorrectly</center>
+                </span>
+              )
             ) : (
               <img src={el.imgItem} alt={el.imgItem} width="100%" height="100%" />
             )}
@@ -141,7 +155,17 @@ export default class AddRemoveLayout extends React.PureComponent {
       <div>
         <hr />
         <button onClick={this.onAddItem}>Add Item JSON</button>
-        <button onClick={() => this.onAddItemJSON(prompt())}>Add Item</button>
+        <button
+          onClick={() =>
+            this.onAddItemJSON(
+              prompt(
+                `because the policy of most sites prohibits embedding their site on other peoples
+                  sites, here is a small list of sites on which the ban does not apply `,
+              ),
+            )
+          }>
+          Add Item
+        </button>
         <hr />
         <ResponsiveReactGridLayout
           onLayoutChange={this.onLayoutChange}
