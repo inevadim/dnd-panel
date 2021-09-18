@@ -75,6 +75,9 @@ export default class AddRemoveLayout extends React.PureComponent {
         w: 2,
         h: 2,
         urlSite: urlItem,
+        color: randomColor({
+          luminosity: 'light',
+        }),
         typeItem: 2,
       }),
       newCounter: this.state.newCounter + 1,
@@ -111,9 +114,15 @@ export default class AddRemoveLayout extends React.PureComponent {
         ) : (
           <span className="text">
             {el.typeItem === 2 ? (
-              <iframe src={el.urlSite} title={i} width="80%" height="98%" />
+              <iframe
+                src={el.urlSite}
+                title={i}
+                width="80%"
+                height="100%"
+                style={{ border: 'none' }}
+              />
             ) : (
-              <img src={el.imgItem} alt={el.imgItem} width="80%" height="100%" />
+              <img src={el.imgItem} alt={el.imgItem} width="100%" height="100%" />
             )}
           </span>
         )}
@@ -131,8 +140,8 @@ export default class AddRemoveLayout extends React.PureComponent {
     return (
       <div>
         <hr />
-        <button onClick={this.onAddItem}>Add Item</button>
-        <button onClick={() => this.onAddItemJSON(prompt())}>Add Item JSON</button>
+        <button onClick={this.onAddItem}>Add Item JSON</button>
+        <button onClick={() => this.onAddItemJSON(prompt())}>Add Item</button>
         <hr />
         <ResponsiveReactGridLayout
           onLayoutChange={this.onLayoutChange}
