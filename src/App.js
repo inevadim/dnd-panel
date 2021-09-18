@@ -4,6 +4,7 @@ import { WidthProvider, Responsive } from 'react-grid-layout';
 import _ from 'lodash';
 import axios from 'axios';
 import { randomColor } from 'randomcolor';
+import { v4 as uuidv4 } from 'uuid';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const serializer = (name, val) =>
@@ -29,8 +30,6 @@ export default class AddRemoveLayout extends React.PureComponent {
     this.state = JSON.parse(localStorage.getItem('items'), parser) ?? {
       // Чтение
       items: [],
-      newCounter: 0,
-      counterAdd: 0,
     };
     this.onAddItem = this.onAddItem.bind(this);
     this.onAddItemJSON = this.onAddItemJSON.bind(this);
@@ -50,7 +49,7 @@ export default class AddRemoveLayout extends React.PureComponent {
     console.log(this.state.bdJSON.itemDND[rand].imgUrl);
     this.setState({
       items: this.state.items.concat({
-        i: Date.now + this.state.counterAdd,
+        i: uuidv4(),
         x: (this.state.items.length * 2) % (this.state.cols || 12),
         y: Infinity, // puts it at the bottom
         w: 2,
@@ -71,7 +70,7 @@ export default class AddRemoveLayout extends React.PureComponent {
   onAddItemJSON(urlItem) {
     this.setState({
       items: this.state.items.concat({
-        i: Date.now() + this.state.newCounter,
+        i: uuidv4(),
         x: (this.state.items.length * 2) % (this.state.cols || 12),
         y: Infinity, // puts it at the bottom
         w: 2,
@@ -82,8 +81,6 @@ export default class AddRemoveLayout extends React.PureComponent {
         }),
         typeItem: 2,
       }),
-      counterAdd: this.state.counterAdd + 1,
-      newCounter: this.state.counterAdd,
     });
     localStorage.setItem('items', JSON.stringify(this.state, serializer));
   }
