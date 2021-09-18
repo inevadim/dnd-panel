@@ -16,7 +16,6 @@ export default class AddRemoveLayout extends React.PureComponent {
       const bdJSON = res.data;
       this.setState({ bdJSON });
     });
-    // console.log(this.state.bdJSON.itemDND);
   }
   static defaultProps = {
     className: 'items',
@@ -28,7 +27,6 @@ export default class AddRemoveLayout extends React.PureComponent {
     super(props);
     const parser = (name, val) => (val === 'Infinity' ? Infinity : val);
     this.state = JSON.parse(localStorage.getItem('items'), parser) ?? {
-      // Чтение
       items: [],
     };
     this.onAddItem = this.onAddItem.bind(this);
@@ -45,13 +43,11 @@ export default class AddRemoveLayout extends React.PureComponent {
 
   onAddItem() {
     let rand = Math.floor(Math.random() * this.state.bdJSON.itemDND.length);
-    console.log(rand);
-    console.log(this.state.bdJSON.itemDND[rand].imgUrl);
     this.setState({
       items: this.state.items.concat({
         i: uuidv4(),
         x: (this.state.items.length * 2) % (this.state.cols || 12),
-        y: Infinity, // puts it at the bottom
+        y: Infinity,
         w: 2,
         h: 2,
         imgItem: this.state.bdJSON.itemDND[rand].imgUrl,
@@ -61,8 +57,6 @@ export default class AddRemoveLayout extends React.PureComponent {
         }),
         typeItem: 1,
       }),
-      counterAdd: this.state.counterAdd + 1,
-      newCounter: this.state.counterAdd,
     });
     localStorage.setItem('items', JSON.stringify(this.state, serializer));
   }
@@ -72,7 +66,7 @@ export default class AddRemoveLayout extends React.PureComponent {
       items: this.state.items.concat({
         i: uuidv4(),
         x: (this.state.items.length * 2) % (this.state.cols || 12),
-        y: Infinity, // puts it at the bottom
+        y: Infinity,
         w: 2,
         h: 2,
         urlSite: urlItem,
@@ -88,8 +82,6 @@ export default class AddRemoveLayout extends React.PureComponent {
   onRemoveItem(i) {
     this.setState({
       items: _.reject(this.state.items, { i: i }),
-      // counterAdd: this.state.counterAdd - 1,
-      // newCounter:this.state.counterAdd
     });
     localStorage.setItem('items', JSON.stringify(this.state, serializer));
   }
@@ -116,11 +108,8 @@ export default class AddRemoveLayout extends React.PureComponent {
         ) : (
           <span className="text">
             {el.typeItem === 2 ? (
-              window.self !== window.top ? (
+              window.parent.frames === window.self ? (
                 <iframe
-                  //https://utyatnishna.ru
-                  //https://askdev.ru
-                  //https://codengineering.ru
                   src={el.urlSite}
                   title={i}
                   width="80%"
@@ -137,10 +126,7 @@ export default class AddRemoveLayout extends React.PureComponent {
             )}
           </span>
         )}
-        <span
-          className="remove removeStyle"
-          // style="removeStyle"
-          onClick={this.onRemoveItem.bind(this, i)}>
+        <span className="remove removeStyle" onClick={this.onRemoveItem.bind(this, i)}>
           ❌
         </span>
       </div>
@@ -151,13 +137,16 @@ export default class AddRemoveLayout extends React.PureComponent {
     return (
       <div>
         <hr />
-        <button onClick={this.onAddItem}>Add Item JSON</button>
+        <button onClick={this.onAddItem}>Add random Item JSON</button>
         <button
           onClick={() =>
             this.onAddItemJSON(
               prompt(
                 `because the policy of most sites prohibits embedding their site on other peoples
-                  sites, here is a small list of sites on which the ban does not apply `,
+                  sites, here is a small list of sites on which the ban does not apply: 
+                  https://utyatnishna.ru
+                  https://askdev.ru
+                  https://codengineering.ru`,
               ),
             )
           }>
